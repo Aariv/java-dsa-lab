@@ -1,5 +1,7 @@
 package com.ariv.dsa.datastructure.array;
 
+import java.util.Objects;
+
 public class DynamicArray<T> {
 
     /**
@@ -140,15 +142,7 @@ public class DynamicArray<T> {
      * @return
      */
     public boolean contains(T value) {
-
-        for (int i = 0; i < size; i++) {
-
-            if (elements[i].equals(value)) {
-                return true;
-            }
-        }
-
-        return false;
+        return indexOf(value) != -1;
     }
 
     /**
@@ -165,8 +159,7 @@ public class DynamicArray<T> {
 
         T removed = (T) elements[index];
 
-        int elementsToMove =
-                size - index - 1;
+        int elementsToMove = size - index - 1;
 
         if (elementsToMove > 0) {
 
@@ -235,18 +228,77 @@ public class DynamicArray<T> {
      * @param value
      */
     public void add(int index, T value) {
+        if(index < 0 || index > size) {
+            throw new IndexOutOfBoundsException(
+                    "Invalid index : " + index
+            );
+        }
 
+        ensureCapacity();
+
+        int elementsToMove = size - index;
+
+        if (elementsToMove > 0) {
+            System.arraycopy(
+                    elements,
+                    index,
+                    elements,
+                    index + 1,
+                    elementsToMove
+            );
+        }
+
+        elements[index] = value;
+        size++;
     }
 
-    public void remove(T value) {
+    /**
+     * Removes the first occurrence of the specified element from this array, if it is present.
+     * If the array does not contain the element, it is unchanged.
+     *
+     * @param value
+     * @return true if the array contained the specified element
+     */
+    public boolean remove(T value) {
+        int index = indexOf(value);
 
+        if (index >= 0) {
+            remove(index);
+            return true;
+        }
+
+        return false;
     }
 
+    /**
+     * Returns the index of the first occurrence of the specified element in this array,
+     * or -1 if this array does not contain the element.
+     *
+     * @param value
+     * @return
+     */
     public int indexOf(T value) {
+        for(int i = 0; i < size; i++) {
+            if(Objects.equals(elements[i], value)) {
+                return i;
+            }
+        }
         return -1;
     }
 
+    /**
+     * Returns the index of the last occurrence of the specified element in this array,
+     * or -1 if this array does not contain the element.
+     *
+     * @param value
+     * @return
+     */
     public int lastIndexOf(T value) {
+        for(int i = size -1; i >= 0; i--) {
+            if(Objects.equals(elements[i], value)) {
+                return i;
+            }
+        }
         return -1;
     }
 
