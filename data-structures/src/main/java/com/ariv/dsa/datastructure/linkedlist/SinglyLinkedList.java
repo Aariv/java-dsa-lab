@@ -185,4 +185,79 @@ public class SinglyLinkedList<T> {
         return sb.toString();
     }
 
+    public void add(int index,T data){
+        validatePosition(index);
+        if (index == 0) {
+            addFirst(data);
+            return;
+        }
+        Node<T> newNode = new Node<>(data);
+        Node<T> previous = getNode(index - 1);
+        newNode.next = previous.next;
+        previous.next = newNode;
+        size++;
+    }
+
+    private void validatePosition(int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index index: " + index );
+        }
+    }
+
+    public T remove(int index) {
+        validateIndex(index);
+        if (index == 0) {
+            return removeFirst();
+        }
+        Node<T> previous = getNode(index - 1);
+        T removedData = previous.next.data;
+        previous.next = previous.next.next;
+        size--;
+        return removedData;
+    }
+
+    public int indexOf(T data) {
+        Node<T> current = head;
+        int index = 0;
+        while (current != null) {
+            if (Objects.equals(current.data, data)) {
+                return index; // Data found, return the index.
+            }
+            current = current.next; // Move to the next node.
+            index++; // Increment the index.
+        }
+        return -1; // Data not found, return -1.
+    }
+
+    public T get(int index){
+        return getNode(index).data;
+    }
+
+    public void reverse() {
+        Node<T> previous = null;
+        Node<T> current = head;
+        Node<T> next = null;
+        while (current != null) {
+            next = current.next; // Store the next node.
+            current.next = previous; // Reverse the link.
+            previous = current; // Move previous to current.
+            current = next; // Move to the next node.
+        }
+        head = previous; // Update head to the new first node.
+    }
+
+    private Node<T> getNode(int index){
+        validateIndex(index);
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
+
+    private void validateIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index index: " + index );
+        }
+    }
 }

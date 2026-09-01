@@ -3,6 +3,8 @@ package com.ariv.dsa.datastructure.linkedlist;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 public class SinglyLinkedListTest {
 
     @Test
@@ -100,5 +102,46 @@ public class SinglyLinkedListTest {
         // Add assertions to verify the list structure and size
         Assertions.assertEquals(5, list.size());
         Assertions.assertEquals(50, list.getLast());
+    }
+
+    @Test
+    void shouldInsertAtIndex() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.addLast(10);
+        list.addLast(30);
+
+        list.add(1, 20);
+
+        assertThat(list.get(1)).isEqualTo(20);
+    }
+
+    @Test
+    void shouldRemoveAtIndex() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
+
+        Integer removed = list.remove(1);
+
+        assertThat(removed).isEqualTo(20);
+
+        assertThat(list.size()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldReverseList() {
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.addLast(10);
+        list.addLast(20);
+        list.addLast(30);
+
+        list.reverse();
+
+        assertThat(list.get(0)).isEqualTo(30);
+
+        assertThat(list.get(1)).isEqualTo(20);
+
+        assertThat(list.get(2)).isEqualTo(10);
     }
 }
