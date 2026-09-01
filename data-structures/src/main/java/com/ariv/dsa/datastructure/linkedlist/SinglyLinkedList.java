@@ -185,6 +185,13 @@ public class SinglyLinkedList<T> {
         return sb.toString();
     }
 
+    /**
+     * Adds an element at the specified index in the list.
+     *
+     * @param index the index at which the element should be added
+     * @param data  the element to be added
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     public void add(int index,T data){
         validatePosition(index);
         if (index == 0) {
@@ -198,12 +205,25 @@ public class SinglyLinkedList<T> {
         size++;
     }
 
+    /**
+     * Validates that the specified index is within the bounds of the list.
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     private void validatePosition(int index) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Index index: " + index );
         }
     }
 
+    /**
+     * Removes and returns the element at the specified index in the list.
+     *
+     * @param index the index of the element to be removed
+     * @return the removed element
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     public T remove(int index) {
         validateIndex(index);
         if (index == 0) {
@@ -216,6 +236,13 @@ public class SinglyLinkedList<T> {
         return removedData;
     }
 
+    /**
+     * Returns the index of the first occurrence of the specified element in the list,
+     * or -1 if the list does not contain the element.
+     *
+     * @param data the element to search for
+     * @return the index of the first occurrence of the element, or -1 if not found
+     */
     public int indexOf(T data) {
         Node<T> current = head;
         int index = 0;
@@ -229,10 +256,20 @@ public class SinglyLinkedList<T> {
         return -1; // Data not found, return -1.
     }
 
+    /**
+     * Returns the element at the specified index in the list.
+     *
+     * @param index the index of the element to return
+     * @return the element at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     public T get(int index){
         return getNode(index).data;
     }
 
+    /**
+     * Reverses the order of the elements in the list.
+     */
     public void reverse() {
         Node<T> previous = null;
         Node<T> current = head;
@@ -246,6 +283,13 @@ public class SinglyLinkedList<T> {
         head = previous; // Update head to the new first node.
     }
 
+    /**
+     * Returns the node at the specified index in the list.
+     *
+     * @param index the index of the node to return
+     * @return the node at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     private Node<T> getNode(int index){
         validateIndex(index);
         Node<T> current = head;
@@ -255,6 +299,12 @@ public class SinglyLinkedList<T> {
         return current;
     }
 
+    /**
+     * Validates that the specified index is within the bounds of the list.
+     *
+     * @param index the index to validate
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     private void validateIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index index: " + index );
