@@ -2,6 +2,11 @@ package com.ariv.dsa.datastructure.array;
 
 import java.util.Objects;
 
+/**
+ * A generic implementation of a dynamic array.
+ *
+ * @param <T> the type of elements in this array
+ */
 public class DynamicArray<T> {
 
     /**
