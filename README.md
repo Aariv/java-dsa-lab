@@ -19,8 +19,7 @@ The goal is not to memorize code. Each phase focuses on understanding:
 | Phase | Topic | Status |
 |---|---|---|
 | 1 | Dynamic Array | Complete |
-| 2.1 | Singly Linked List basics | Complete |
-| 2.2 | Singly Linked List index operations and reversal | Complete |
+| 2 | Singly Linked List basics | Complete |
 | 3 | Doubly Linked List | Complete |
 | 4 | Circular Linked List | Complete |
 | 5 | Stack, Queue, Circular Queue, and Deque | Next |
@@ -47,58 +46,7 @@ java-dsa-lab/
         ├── main/java/com/ariv/dsa/problem/
         └── test/java/com/ariv/dsa/problem/
 ```
-
-## Module Dependency Direction
-
-```text
-algorithms ─────────► data-structures
-
-problem-solving ────► algorithms
-problem-solving ────► data-structures
-```
-
-Dependency rules:
-
-1. `data-structures` does not depend on another project module.
-2. `algorithms` can use implementations from `data-structures`.
-3. `problem-solving` can use both `algorithms` and `data-structures`.
-4. Reverse dependencies are not permitted.
-5. Circular module dependencies must be avoided.
-
-## Build and Test
-
-Run the complete Maven reactor build from the repository root:
-
-```bash
-mvn clean verify
-```
-
-Build and test the data-structures module with its required projects:
-
-```bash
-mvn -pl data-structures -am clean test
-```
-
-Build the algorithms module with its dependencies:
-
-```bash
-mvn -pl algorithms -am clean test
-```
-
-Build the problem-solving module with its dependencies:
-
-```bash
-mvn -pl problem-solving -am clean test
-```
-
-Inspect dependencies:
-
-```bash
-mvn dependency:tree
-```
-
 ---
-
 # Phase 1: Dynamic Array
 
 ## Objective
@@ -165,39 +113,6 @@ Shift left:        [A][C][D][D]
 Clear old tail:    [A][C][D][ ]
 ```
 
-Clearing the old final slot prevents retaining an unnecessary object reference.
-
-## Null-safe Equality
-
-Use:
-
-```java
-Objects.equals(left, right)
-```
-
-instead of invoking `.equals()` directly on a potentially null element.
-
-## Integer Overload Gotcha
-
-Given these overloads:
-
-```java
-public T remove(int index);
-public boolean remove(T value);
-```
-
-For `DynamicArray<Integer>`, this call selects the primitive index overload:
-
-```java
-array.remove(30);
-```
-
-Remove the integer value explicitly with:
-
-```java
-array.remove(Integer.valueOf(30));
-```
-
 ## Complexity
 
 | Operation | Complexity |
@@ -242,7 +157,7 @@ head
 
 A node stores its value and a reference to the next node.
 
-## Phase 2.1 API
+## Phase 2 API
 
 ```java
 public void addFirst(T value);
@@ -255,11 +170,6 @@ public boolean contains(T value);
 public int size();
 public boolean isEmpty();
 public void clear();
-```
-
-## Phase 2.2 API
-
-```java
 public void add(int index, T value);
 public T remove(int index);
 public T get(int index);
@@ -686,80 +596,6 @@ Traversal termination depends on the structure's invariant.
 ```
 
 A normal linked list stops at `null`. A circular linked list stops when traversal returns to its starting node.
-
----
-
-# Testing Strategy
-
-Each structure should include tests for:
-
-## Normal Behavior
-
-- insertion
-- retrieval
-- search
-- deletion
-- traversal order
-- expected size
-
-## Boundary Conditions
-
-- empty structure
-- one-element structure
-- first position
-- middle position
-- final position
-- invalid negative index
-- index equal to size where applicable
-- index greater than size
-- null value where supported
-- duplicate values
-
-## Structural Invariants
-
-Tests should validate behavior and internal structural correctness where practical.
-
-Examples:
-
-```text
-Dynamic Array:
-size never exceeds capacity
-unused removed slot is cleared
-
-Singly Linked List:
-last node points to null
-reverse preserves size
-
-Doubly Linked List:
-head.prev is null
-tail.next is null
-forward and backward relationships remain symmetric
-
-Circular Linked List:
-tail.next always equals head for a non-empty list
-single-node list points to itself
-```
-
-Package-private diagnostic methods may be used during learning, but production-facing APIs should not expose internal nodes unnecessarily.
-
----
-
-# Learning Method Used in Every Phase
-
-Each implementation follows this sequence:
-
-1. Define the problem solved by the structure.
-2. Draw the memory or reference model.
-3. Define the structure's invariants.
-4. Define a minimal public API.
-5. Implement the simplest operation first.
-6. Handle empty and single-element cases explicitly.
-7. Trace references manually.
-8. Write unit tests.
-9. Analyze time and space complexity.
-10. Compare against the previous structure.
-11. Document trade-offs and lessons.
-12. Commit the completed phase.
 
 ---
 
