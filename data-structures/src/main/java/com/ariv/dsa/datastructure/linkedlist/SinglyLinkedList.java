@@ -192,7 +192,7 @@ public class SinglyLinkedList<T> {
      * @param data  the element to be added
      * @throws IndexOutOfBoundsException if the index is out of range
      */
-    public void add(int index,T data){
+    public void add(int index,T data) {
         validatePosition(index);
         if (index == 0) {
             addFirst(data);

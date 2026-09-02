@@ -1,16 +1,19 @@
 package com.ariv.dsa.datastructure.linkedlist;
 
 /**
- * A generic node class for a singly linked list.
+ * A generic node class for a doubly linked list.
  *
  * @param <T> the type of data stored in the node
  */
-class Node<T> {
+class DoublyNode<T> {
 
     T data;
-    Node<T> next; // Each node points to the next node.
 
-    Node(T data) {
+    DoublyNode<T> next;
+
+    DoublyNode<T> prev;
+
+    DoublyNode(T data) {
         this.data = data;
     }
 }
