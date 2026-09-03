@@ -76,4 +76,63 @@ class MinHeapTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Heap is empty");
     }
+
+    @Test
+    void removeMinValueAndMaintainHeapProperty() {
+
+        MinHeap heap = new MinHeap();
+
+        heap.insert(30);
+        heap.insert(10);
+        heap.insert(20);
+
+        int minValue = heap.remove();
+
+        assertThat(minValue).isEqualTo(10);
+        assertThat(heap.peek()).isEqualTo(20);
+        assertThat(heap.size()).isEqualTo(2);
+    }
+
+    @Test
+    void repeatedRemovalReturnsAscendingOrder() {
+
+        MinHeap heap = new MinHeap();
+
+        heap.insert(30);
+        heap.insert(10);
+        heap.insert(20);
+        heap.insert(5);
+
+        assertThat(heap.remove()).isEqualTo(5);
+        assertThat(heap.remove()).isEqualTo(10);
+        assertThat(heap.remove()).isEqualTo(20);
+        assertThat(heap.remove()).isEqualTo(30);
+    }
+
+    @Test
+    void singleElementHeap() {
+        MinHeap heap = new MinHeap();
+        heap.insert(42);
+        assertThat(heap.peek()).isEqualTo(42);
+        assertThat(heap.remove()).isEqualTo(42);
+        assertThat(heap.isEmpty()).isTrue();
+    }
+
+    @Test
+    void duplicateElements() {
+        MinHeap heap = new MinHeap();
+        heap.insert(15);
+        heap.insert(15);
+        assertThat(heap.peek()).isEqualTo(15);
+        assertThat(heap.remove()).isEqualTo(15);
+        assertThat(heap.peek()).isEqualTo(15);
+    }
+
+    @Test
+    void removeFromEmptyHeap() {
+        MinHeap heap = new MinHeap();
+        assertThatThrownBy(heap::remove)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Heap is empty");
+    }
 }
