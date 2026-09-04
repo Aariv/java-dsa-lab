@@ -2,6 +2,8 @@ package com.ariv.dsa.datastructure.tree;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BinaryTreeTest {
@@ -67,4 +69,38 @@ public class BinaryTreeTest {
         assertTrue(tree.contains(3));
         assertFalse(tree.contains(20));
     }
+
+    /**
+     * Let us build this tree
+     *
+     *           A
+     *         /   \
+     *        B     C
+     *       / \   / \
+     *      D   E F   G
+     */
+    @Test
+    void shouldTraverseInOrder() {
+        BinaryTree<Character> tree = new BinaryTree<>();
+        tree.setRoot('A');
+        tree.getRootNode().left = new TreeNode<>('B');
+        tree.getRootNode().right = new TreeNode<>('C');
+        tree.getRootNode().left.left = new TreeNode<>('D');
+        tree.getRootNode().left.right = new TreeNode<>('E');
+        tree.getRootNode().right.left = new TreeNode<>('F');
+        tree.getRootNode().right.right = new TreeNode<>('G');
+
+        List<Character> result = tree.preOrder();
+        assertEquals(List.of('A', 'B', 'D', 'E', 'C', 'F', 'G'), result);
+
+        List<Character> result2 = tree.inOrder();
+        assertEquals(List.of('D', 'B', 'E', 'A', 'F', 'C', 'G'), result2);
+
+        List<Character> result3 = tree.postOrder();
+        assertEquals(List.of('D', 'E', 'B', 'F', 'G', 'C', 'A'), result3);
+
+        List<Character> result4 = tree.levelOrder();
+        assertEquals(List.of('A', 'B', 'C', 'D', 'E', 'F', 'G'), result4);
+    }
+
 }
