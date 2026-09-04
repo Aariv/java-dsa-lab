@@ -271,4 +271,9 @@ public class HashTable<K, V> {
         }
         size = oldSize;
     }
+
+    public void clear() {
+        buckets = (Entry<K,V>[]) new Entry[DEFAULT_CAPACITY];
+        size = 0;
+    }
 }
