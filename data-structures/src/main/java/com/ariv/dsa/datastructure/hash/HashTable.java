@@ -16,6 +16,11 @@ public class HashTable<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
 
     /**
+     * The load factor threshold for resizing the hash table.
+     */
+    private static final double LOAD_FACTOR = 0.75;
+
+    /**
      * The array of buckets where entries are stored.
      */
     private Entry<K, V>[] buckets;
@@ -24,6 +29,8 @@ public class HashTable<K, V> {
      * The number of key-value pairs in the hash table.
      */
     private int size;
+
+
 
     /**
      * Constructs a new, empty hash table with the default initial capacity.
@@ -84,26 +91,31 @@ public class HashTable<K, V> {
      * @param value the value to be associated with the specified key
      */
     public void put(K key, V value) {
-        int bucket = bucketIndex(key);
-        Entry<K,V> current = buckets[bucket];
-        if(current == null) {
-            buckets[bucket] = new Entry<>(key, value);
-            size++;
-            return;
+        if(shouldResize()) {
+            resize();
         }
-        while(true) {
-            if(Objects.equals(current.key, key)) {
-                current.value = value;
-                return;
-            }
-            // Collision detected, move to the next entry in the linked list
-            if(current.next == null) {
-                current.next = new Entry<>(key, value);
-                size++;
-                return;
-            }
-            current = current.next;
-        }
+        putEntry(key, value);
+
+//        int bucket = bucketIndex(key);
+//        Entry<K,V> current = buckets[bucket];
+//        if(current == null) {
+//            buckets[bucket] = new Entry<>(key, value);
+//            size++;
+//            return;
+//        }
+//        while(true) {
+//            if(Objects.equals(current.key, key)) {
+//                current.value = value;
+//                return;
+//            }
+//            // Collision detected, move to the next entry in the linked list
+//            if(current.next == null) {
+//                current.next = new Entry<>(key, value);
+//                size++;
+//                return;
+//            }
+//            current = current.next;
+//        }
     }
 
     @Deprecated
@@ -200,5 +212,63 @@ public class HashTable<K, V> {
             current = current.next;
         }
         return null; // Key not found
+    }
+
+    /**
+     * Checks if the hash table needs to be resized based on the load factor.
+     *
+     * @return {@code true} if the hash table should be resized, {@code false} otherwise
+     */
+    private boolean shouldResize() {
+
+        return (size + 1) > buckets.length * LOAD_FACTOR;
+    }
+
+    public int capacity() {
+        return buckets.length;
+    }
+
+    private void putEntry(
+            K key,
+            V value
+    ) {
+        int bucket = bucketIndex(key);
+        Entry<K,V> current = buckets[bucket];
+        if(current == null) {
+            buckets[bucket] = new Entry<>(key, value);
+            size++;
+            return;
+        }
+        while(true) {
+            if(Objects.equals(current.key, key)) {
+                current.value = value;
+                return;
+            }
+            // Collision detected, move to the next entry in the linked list
+            if(current.next == null) {
+                current.next = new Entry<>(key, value);
+                size++;
+                return;
+            }
+            current = current.next;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        Entry<K,V>[] oldBuckets = buckets;
+        // Create a new array of buckets with double the size
+        buckets = (Entry<K,V>[]) new Entry[oldBuckets.length * 2];
+        // Rehash all existing entries and put them into the new buckets
+        int oldSize = size;
+        size = 0;
+        for(Entry<K,V> bucket : oldBuckets) {
+            Entry<K,V> current = bucket;
+            while(current != null) {
+                put(current.key, current.value);
+                current = current.next;
+            }
+        }
+        size = oldSize;
     }
 }

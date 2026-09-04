@@ -129,4 +129,33 @@ public class HashTableTest {
 
         assertThat(table.get(new TestKey("B"))).isEqualTo(25);
     }
+
+    @Test
+    void shouldResize() {
+
+        HashTable<Integer,Integer> table = new HashTable<>();
+
+        for(int i = 0; i < 13; i++) {
+            table.put(i, i);
+        }
+
+        assertThat(table.capacity()).isEqualTo(32);
+    }
+
+    @Test
+    void shouldPreserveEntriesAfterResize() {
+
+        HashTable<Integer,Integer> table = new HashTable<>();
+
+        for(int i = 0; i < 100; i++) {
+            table.put(i, i * 10);
+        }
+
+        for(int i = 0; i < 100; i++) {
+            assertThat(
+                    table.get(i)
+            ).isEqualTo(i * 10);
+        }
+    }
+
 }
