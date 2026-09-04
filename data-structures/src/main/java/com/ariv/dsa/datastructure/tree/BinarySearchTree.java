@@ -335,4 +335,73 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         root = null;
         size = 0;
     }
+
+    /**
+     * Deletes a value from the binary search tree.
+     *
+     * @param value the value to delete
+     * @return true if the value was deleted, false if it does not exist in the tree
+     * @throws IllegalArgumentException if the value is null
+     */
+    public boolean delete(T value) {
+
+        requireValue(value);
+
+        if (!contains(value)) {
+            return false;
+        }
+
+        root = delete(root, value);
+
+        size--;
+
+        return true;
+    }
+
+    /**
+     * Recursively deletes a value from the binary search tree starting from the specified node.
+     *
+     * @param node  the node to start deletion from
+     * @param value the value to delete
+     * @return the updated node after deletion
+     */
+    private TreeNode<T> delete(TreeNode<T> node, T value) {
+
+        if (node == null) {
+            return null;
+        }
+
+        int comparison = value.compareTo(node.data);
+
+        if (comparison < 0) {
+            node.left = delete(node.left, value);
+        } else if (comparison > 0) {
+            node.right = delete(node.right, value);
+        } else {
+            if (node.left == null) {
+                return node.right;
+            } else if (node.right == null) {
+                return node.left;
+            }
+
+            TreeNode<T> minNode = findMin(node.right);
+            node.data = minNode.data;
+            node.right = delete(node.right, minNode.data);
+        }
+
+        return node;
+    }
+
+    /**
+     * Finds the node with the minimum value in the binary search tree starting from the specified node.
+     *
+     * @param right the node to start searching for the minimum value
+     * @return the node with the minimum value
+     */
+    private TreeNode<T> findMin(TreeNode<T> right) {
+        while (right.left != null) {
+            right = right.left;
+        }
+        return right;
+    }
 }

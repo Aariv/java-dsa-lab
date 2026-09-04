@@ -143,4 +143,53 @@ public class BinarySearchTreeTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Value cannot be null");
     }
+
+    @Test
+    void shouldDeleteLeafNode() {
+
+        BinarySearchTree<Integer> tree = createTree();
+
+        assertThat(tree.delete(20)).isTrue();
+        assertThat(tree.contains(20)).isFalse();
+        assertThat(tree.size()).isEqualTo(6);
+    }
+
+    @Test
+    void shouldDeleteNodeWithOneChild() {
+
+        BinarySearchTree<Integer> tree = createTree();
+
+        assertThat(tree.delete(30)).isTrue();
+        assertThat(tree.contains(30)).isFalse();
+        assertThat(tree.size()).isEqualTo(6);
+    }
+
+    @Test
+    void shouldDeleteNodeWithTwoChildren() {
+
+        BinarySearchTree<Integer> tree = createTree();
+
+        assertThat(tree.delete(50)).isTrue();
+        assertThat(tree.contains(50)).isFalse();
+        assertThat(tree.size()).isEqualTo(6);
+    }
+
+    @Test
+    void shouldDeleteRoot() {
+
+        BinarySearchTree<Integer> tree = createTree();
+
+        assertThat(tree.delete(50)).isTrue();
+        assertThat(tree.contains(50)).isFalse();
+        assertThat(tree.size()).isEqualTo(6);
+    }
+
+    @Test
+    void shouldReturnFalseWhenValueMissing() {
+
+        BinarySearchTree<Integer> tree = createTree();
+
+        assertThat(tree.delete(100)).isFalse();
+        assertThat(tree.size()).isEqualTo(7);
+    }
 }
