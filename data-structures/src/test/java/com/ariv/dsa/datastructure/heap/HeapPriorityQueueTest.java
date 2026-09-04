@@ -85,7 +85,7 @@ public class HeapPriorityQueueTest {
             queue.dequeue();
         } catch (IllegalStateException e) {
             assertThat(e.getMessage())
-                    .isEqualTo("Priority queue is empty");
+                    .isEqualTo("Heap is empty");
         }
     }
 
