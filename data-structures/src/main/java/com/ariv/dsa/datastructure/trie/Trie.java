@@ -1,8 +1,6 @@
 package com.ariv.dsa.datastructure.trie;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A Trie (prefix tree) implementation for storing and searching strings.
@@ -108,14 +106,14 @@ public class Trie {
      * @return true if the word was deleted, false if it did not exist
      * @throws IllegalArgumentException if the word is null or empty
      */
-    boolean delete(String word) {
-        validateWord(word);
-        if (deleteNode(root, word, 0)) {
-            size--;
-            return true;
-        }
-        return false;
-    }
+//    boolean delete(String word) {
+//        validateWord(word);
+//        if (deleteNode(root, word, 0)) {
+//            size--;
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * Recursively deletes a word from the Trie starting from the given node.
@@ -125,24 +123,97 @@ public class Trie {
      * @param i    the current index in the word
      * @return true if the current node should be deleted, false otherwise
      */
-    private boolean deleteNode(TrieNode root, String word, int i) {
-        if (i == word.length()) {
-            if (!root.endOfWord) {
-                return false;
-            }
-            root.endOfWord = false;
-            return root.children.isEmpty();
-        }
-        char ch = word.charAt(i);
-        TrieNode node = root.children.get(ch);
-        if (node == null) {
+//    private boolean deleteNode(TrieNode root, String word, int i) {
+//        if (i == word.length()) {
+//            if (!root.endOfWord) {
+//                return false;
+//            }
+//            root.endOfWord = false;
+//            return root.children.isEmpty();
+//        }
+//        char ch = word.charAt(i);
+//        TrieNode node = root.children.get(ch);
+//        if (node == null) {
+//            return false;
+//        }
+//        boolean shouldDeleteCurrentNode = deleteNode(node, word, i + 1);
+//        if (shouldDeleteCurrentNode) {
+//            root.children.remove(ch);
+//            return root.children.isEmpty() && !root.endOfWord;
+//        }
+//        return false;
+//    }
+
+    /**
+     * Deletes a word from the Trie.
+     *
+     * @param word the word to delete
+     * @return true if the word was deleted, false if it did not exist
+     * @throws IllegalArgumentException if the word is null or empty
+     */
+    public boolean delete(String word) {
+
+        validateWord(word);
+
+        if (!contains(word)) {
             return false;
         }
-        boolean shouldDeleteCurrentNode = deleteNode(node, word, i + 1);
-        if (shouldDeleteCurrentNode) {
-            root.children.remove(ch);
-            return root.children.isEmpty() && !root.endOfWord;
+
+        delete(root, word, 0);
+
+        size--;
+
+        return true;
+    }
+
+    /**
+     * Recursively deletes a word from the Trie starting from the given node.
+     *
+     * @param current the current TrieNode
+     * @param word    the word to delete
+     * @param index   the current index in the word
+     * @return true if the current node should be deleted, false otherwise
+     */
+    private boolean delete(
+            TrieNode current,
+            String word,
+            int index) {
+
+        /*
+         * Reached last character
+         */
+        if (index == word.length()) {
+
+            current.endOfWord = false;
+
+            return current.children.isEmpty();
         }
+
+        char character =
+                word.charAt(index);
+
+        TrieNode child =
+                current.children.get(character);
+
+        if (child == null) {
+            return false;
+        }
+
+        boolean shouldRemoveChild =
+                delete(
+                        child,
+                        word,
+                        index + 1
+                );
+
+        if (shouldRemoveChild) {
+
+            current.children.remove(character);
+
+            return !current.endOfWord
+                    && current.children.isEmpty();
+        }
+
         return false;
     }
 
@@ -154,31 +225,62 @@ public class Trie {
      * @throws IllegalArgumentException if the prefix is null or empty
      */
     public List<String> autoComplete(String prefix) {
+
         validateWord(prefix);
-        TrieNode node = findNode(prefix);
-        if (node == null) {
+
+        TrieNode prefixNode =
+                findNode(prefix);
+
+        if (prefixNode == null) {
             return List.of();
         }
-        List<String> results = new java.util.ArrayList<>();
-        collectWords(node, new StringBuilder(prefix), results);
-        return results;
+
+        List<String> suggestions =
+                new ArrayList<>();
+
+        collectWords(
+                prefixNode,
+                new StringBuilder(prefix),
+                suggestions
+        );
+
+        return suggestions;
     }
 
     /**
      * Recursively collects all words in the Trie starting from the given node.
      *
-     * @param node          the current TrieNode
-     * @param stringBuilder a StringBuilder to build the current word
+     * @param current          the current TrieNode
+     * @param currentWord a StringBuilder to build the current word
      * @param results       a list to store the collected words
      */
-    private void collectWords(TrieNode node, StringBuilder stringBuilder, List<String> results) {
-        if (node.endOfWord) {
-            results.add(stringBuilder.toString());
+    private void collectWords(
+            TrieNode current,
+            StringBuilder currentWord,
+            List<String> results) {
+
+        if (current.endOfWord) {
+            results.add(
+                    currentWord.toString()
+            );
         }
-        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
-            stringBuilder.append(entry.getKey());
-            collectWords(entry.getValue(), stringBuilder, results);
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+        for (Map.Entry<Character, TrieNode> entry
+                : current.children.entrySet()) {
+
+            currentWord.append(
+                    entry.getKey()
+            );
+
+            collectWords(
+                    entry.getValue(),
+                    currentWord,
+                    results
+            );
+
+            currentWord.deleteCharAt(
+                    currentWord.length() - 1
+            );
         }
     }
 
@@ -218,7 +320,9 @@ public class Trie {
         private boolean endOfWord;
 
         public TrieNode() {
-            this.children = new HashMap<>();
+
+//            this.children = new HashMap<>();
+            this.children = new TreeMap<>();
         }
     }
 }

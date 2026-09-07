@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrieTest {
@@ -410,4 +412,162 @@ class TrieTest {
             );
         }
     }
+
+    @Test
+    void shouldDeleteLeafWord() {
+
+        Trie trie = new Trie();
+
+        trie.insert("apple");
+
+        assertTrue(
+                trie.delete("apple")
+        );
+
+        assertFalse(
+                trie.contains("apple")
+        );
+
+        assertEquals(
+                0,
+                trie.size()
+        );
+    }
+
+    @Test
+    void shouldDeleteAppleWithoutDeletingApp() {
+
+        Trie trie = new Trie();
+
+        trie.insert("app");
+        trie.insert("apple");
+
+        trie.delete("apple");
+
+        assertAll(
+                () -> assertTrue(trie.contains("app")),
+                () -> assertFalse(trie.contains("apple")),
+                () -> assertEquals(1, trie.size())
+        );
+    }
+
+    @Test
+    void shouldReturnFalseForMissingWord() {
+
+        Trie trie = new Trie();
+
+        trie.insert("apple");
+
+        assertFalse(
+                trie.delete("banana")
+        );
+    }
+
+    @Test
+    void shouldDeleteBatchOnly() {
+
+        Trie trie = new Trie();
+
+        trie.insert("bat");
+        trie.insert("batch");
+        trie.insert("bath");
+
+        trie.delete("batch");
+
+        assertAll(
+                () -> assertTrue(trie.contains("bat")),
+                () -> assertTrue(trie.contains("bath")),
+                () -> assertFalse(trie.contains("batch"))
+        );
+    }
+
+    @Test
+    void shouldReturnMatchingWords() {
+
+        Trie trie = new Trie();
+
+        trie.insert("app");
+        trie.insert("apple");
+        trie.insert("application");
+        trie.insert("apply");
+        trie.insert("apt");
+
+        List<String> suggestions =
+                trie.autoComplete("app");
+
+        assertEquals(
+                List.of(
+                        "app",
+                        "apple",
+                        "application",
+                        "apply"
+                ),
+                suggestions
+        );
+    }
+
+    @Test
+    void shouldReturnSingleMatch() {
+
+        Trie trie = new Trie();
+
+        trie.insert("apple");
+        trie.insert("banana");
+
+        assertEquals(
+                List.of("banana"),
+                trie.autoComplete("banana")
+        );
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenPrefixDoesNotExist() {
+
+        Trie trie = new Trie();
+
+        trie.insert("apple");
+
+        assertTrue(
+                trie.autoComplete("xyz")
+                        .isEmpty()
+        );
+    }
+
+    @Test
+    void shouldIncludePrefixWord() {
+
+        Trie trie = new Trie();
+
+        trie.insert("app");
+        trie.insert("apple");
+
+        assertEquals(
+                List.of(
+                        "app",
+                        "apple"
+                ),
+                trie.autoComplete("app")
+        );
+    }
+
+    @Test
+    void shouldNotReturnDeletedWord() {
+
+        Trie trie = new Trie();
+
+        trie.insert("app");
+        trie.insert("apple");
+        trie.insert("apply");
+
+        trie.delete("apple");
+
+        assertEquals(
+                List.of(
+                        "app",
+                        "apply"
+                ),
+                trie.autoComplete("app")
+        );
+    }
+
 }
