@@ -2,6 +2,11 @@ package com.ariv.algorithms.search;
 
 import java.util.Objects;
 
+/**
+ * Linear search is the simplest search algorithm.
+ * It checks every element in the list until it finds a match.
+ * It has a run-time complexity of O(n).
+ */
 public final class LinearSearch {
 
     private LinearSearch() {
