@@ -313,4 +313,8 @@ public class DirectedGraph<T> {
             );
         }
     }
+    public T[] getVertices() {
+
+        return (T[]) adjacencyList.keySet().toArray();
+    }
 }
