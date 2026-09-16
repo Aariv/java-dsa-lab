@@ -20,19 +20,24 @@ public final class RemoveDuplicatesSortedArray {
      */
     public static int removeDuplicates(int[] values) {
 
+        // Validate that the input array is not null
         Objects.requireNonNull(values, "Values cannot be null");
 
+        // If the array is empty, return 0 as there are no elements to process
         if (values.length == 0) {
             return 0;
         }
 
+        // Initialize a write index to keep track of the position to write the next unique value
         int writeIndex = 0;
 
+        // Iterate through the array starting from the second element (index 1)
         for (int readIndex = 1; readIndex < values.length; readIndex++) {
+            // If the current value is different from the last unique value, write it to the position indicated by writeIndex
             if (values[readIndex] != values[writeIndex]) {
-
+                // Increment the writeIndex to prepare for the next unique value
                 writeIndex++;
-
+                // Write the unique value to the writeIndex position
                 values[writeIndex] = values[readIndex];
             }
         }
