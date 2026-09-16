@@ -11,16 +11,7 @@ public class ThreeSumTest {
     @Test
     void shouldFindTriplets() {
 
-        List<List<Integer>> result = ThreeSum.findTriplets(
-                        new int[]{
-                                -1,
-                                0,
-                                1,
-                                2,
-                                -1,
-                                -4
-                        }
-                );
+        List<List<Integer>> result = ThreeSum.findTriplets(new int[]{-1, 0, 1, 2, -1, -4});
 
         assertEquals(2, result.size());
 
