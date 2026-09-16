@@ -19,35 +19,14 @@ class RemoveElementTest {
         @DisplayName("should remove matching values")
         void shouldRemoveMatchingValues() {
 
-            int[] values = {
-                    3,
-                    2,
-                    2,
-                    3
-            };
+            int[] values = {3, 2, 2, 3};
 
-            int newLength =
-                    RemoveElement.remove(
-                            values,
-                            3
-                    );
+            int newLength = RemoveElement.remove(values, 3);
 
             assertAll(
-                    () -> assertEquals(
-                            2,
-                            newLength
-                    ),
+                    () -> assertEquals(2, newLength),
 
-                    () -> assertArrayEquals(
-                            new int[]{
-                                    2,
-                                    2
-                            },
-                            Arrays.copyOf(
-                                    values,
-                                    newLength
-                            )
-                    )
+                    () -> assertArrayEquals(new int[]{2, 2}, Arrays.copyOf(values, newLength))
             );
         }
 

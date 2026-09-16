@@ -20,14 +20,20 @@ public final class RemoveElement {
      */
     public static int remove(int[] values, int valueToRemove) {
 
+        // Validate that the input array is not null
         Objects.requireNonNull(values, "Values cannot be null");
 
+        // Initialize a write index to keep track of the position to write the next non-matching value
         int writeIndex = 0;
 
+        // Iterate through the array using a read index to examine each value
         for (int readIndex = 0; readIndex < values.length; readIndex++) {
 
+            // If the current value does not match the value to remove, write it to the position indicated by writeIndex
             if (values[readIndex] != valueToRemove) {
+                // Write the non-matching value to the writeIndex position
                 values[writeIndex] = values[readIndex];
+                // Increment the writeIndex to prepare for the next non-matching value
                 writeIndex++;
             }
         }
