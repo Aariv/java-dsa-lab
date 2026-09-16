@@ -18,26 +18,11 @@ class MoveZeroesTest {
         @DisplayName("should move zeroes to the end")
         void shouldMoveZeroesToTheEnd() {
 
-            int[] values = {
-                    0,
-                    1,
-                    0,
-                    3,
-                    12
-            };
+            int[] values = {0, 1, 0, 3, 12};
 
             MoveZeroes.move(values);
 
-            assertArrayEquals(
-                    new int[]{
-                            1,
-                            3,
-                            12,
-                            0,
-                            0
-                    },
-                    values
-            );
+            assertArrayEquals(new int[]{1, 3, 12, 0, 0}, values);
         }
 
         @Test
