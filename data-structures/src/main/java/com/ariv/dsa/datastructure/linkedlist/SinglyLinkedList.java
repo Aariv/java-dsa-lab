@@ -27,10 +27,14 @@ public class SinglyLinkedList<T> {
      * @param data the element to be added
      */
     public void addFirst(T data) {
+        // Create a new node with the given data and set its next reference to the current head.
         Node<T> newNode = new Node<>(data);
-        newNode.next = head; // Point the new node to the current head.
-        head = newNode; // Update the head to the new node.
-        size++; // Increment the size of the list.
+        // Update the head to point to the new node.
+        newNode.next = head;
+        // Increment the size of the list.
+        head = newNode;
+        // Increment the size of the list.
+        size++;
     }
 
     /**
@@ -39,16 +43,21 @@ public class SinglyLinkedList<T> {
      * @param data the element to be added
      */
     public void addLast(T data) {
+        // Create a new node with the given data.
         Node<T> newNode = new Node<>(data);
+        // If the list is empty, set the new node as the head.
         if (head == null) {
             head = newNode; // If the list is empty, set the new node as the head.
             size++; // Increment the size of the list.
             return;
         }
+        // Otherwise, traverse to the end of the list and link the new node.
         Node<T> current = head;
+        // Traverse to the last node in the list.
         while (current.next != null) {
             current = current.next; // Traverse to the last node.
         }
+        // Link the last node to the new node.
         current.next = newNode; // Link the last node to the new node.
         size++; // Increment the size of the list.
     }
@@ -60,6 +69,7 @@ public class SinglyLinkedList<T> {
      * @throws NoSuchElementException if the list is empty
      */
     public T removeFirst() {
+        // Check if the list is empty and throw an exception if it is.
         if(head == null){
             throw new NoSuchElementException();
         }

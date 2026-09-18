@@ -37,15 +37,20 @@ public class DoublyLinkedList<T> {
      * @param data the element to be added
      */
     public void addFirst(T data) {
+        // Create a new node with the given data
         DoublyNode<T> newNode = new DoublyNode<>(data);
+        // If the list is empty, set both head and tail to the new node
         if (head == null) {
+            // If the list is empty, set both head and tail to the new node
             head = newNode;
             tail = newNode;
         } else {
+            // If the list is not empty, insert the new node at the front
             newNode.next = head;
             head.prev = newNode;
             head = newNode;
         }
+        // Increment the size of the list
         size++;
     }
 
@@ -55,11 +60,14 @@ public class DoublyLinkedList<T> {
      * @param data the element to be added
      */
     public void addLast(T data) {
+        // Create a new node with the given data
         DoublyNode<T> newNode = new DoublyNode<>(data);
+        // If the list is empty, set both head and tail to the new node
         if (tail == null) {
             head = newNode;
             tail = newNode;
         } else {
+            // If the list is not empty, insert the new node at the end
             tail.next = newNode;
             newNode.prev = tail;
             tail = newNode;
@@ -74,6 +82,7 @@ public class DoublyLinkedList<T> {
      * @throws IllegalStateException if the list is empty
      */
     public T getFirst() {
+        // Check if the list is empty and throw an exception if it is
         if (head == null) {
             throw new IllegalStateException("List is empty");
         }
@@ -87,9 +96,11 @@ public class DoublyLinkedList<T> {
      * @throws IllegalStateException if the list is empty
      */
     public T getLast() {
+        // Check if the list is empty and throw an exception if it is
         if (tail == null) {
             throw new IllegalStateException("List is empty");
         }
+        // Return the data of the last node (tail) without removing it
         return tail.data;
     }
 
@@ -100,14 +111,18 @@ public class DoublyLinkedList<T> {
      * @throws IllegalStateException if the list is empty
      */
     public T removeFirst() {
+        // Store the current head node to return its data later
         DoublyNode<T> curr = head;
+        // Check if the list is empty and throw an exception if it is
         if (head == null) {
             throw new IllegalStateException("List is empty");
         }
+        // If there's only one element in the list, set both head and tail to null
         if (head == tail) { // Only one element
             head = null;
             tail = null;
         } else {
+            // If there are multiple elements, move the head pointer to the next node and update its previous pointer to null
             head = head.next;
             head.prev = null;
         }
@@ -122,10 +137,12 @@ public class DoublyLinkedList<T> {
      * @throws IllegalStateException if the list is empty
      */
     public T removeLast() {
+        // Store the current tail node to return its data later
         DoublyNode<T> curr = tail;
         if (tail == null) {
             throw new IllegalStateException("List is empty");
         }
+        // If there's only one element in the list, set both head and tail to null
         if (head == tail) { // Only one element
             head = null;
             tail = null;
@@ -171,11 +188,14 @@ public class DoublyLinkedList<T> {
      * @return true if the list contains the element, false otherwise
      */
     public boolean contains(T data) {
+        // Iterate through the list and check if any node's data matches the specified data
         DoublyNode<T> current = head;
         while (current != null) {
+            // Use equals to compare the data, handling nulls appropriately
             if (current.data.equals(data)) {
                 return true;
             }
+            // Move to the next node in the list
             current = current.next;
         }
         return false;
@@ -187,6 +207,7 @@ public class DoublyLinkedList<T> {
      * @return a string representation of the list
      */
     public String toString() {
+        // Create a StringBuilder to build the string representation of the list
         DoublyNode<T> current = head;
         StringBuilder sb = new StringBuilder();
         sb.append("[");
