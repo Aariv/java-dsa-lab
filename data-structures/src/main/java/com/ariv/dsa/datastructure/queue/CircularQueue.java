@@ -73,7 +73,6 @@ public class CircularQueue<T> {
      */
     public void enqueue(T value) {
         if(isFull()) {
-
             throw new IllegalStateException(
                     "Queue is full"
             );
