@@ -13,11 +13,9 @@ public class ArrayStackTest {
         stack.push(20);
         stack.push(30);
 
-        Integer value =
-                stack.pop();
+        Integer value = stack.pop();
 
-        assertThat(value)
-                .isEqualTo(30);
+        assertThat(value).isEqualTo(30);
     }
 
     @Test
@@ -28,8 +26,7 @@ public class ArrayStackTest {
         stack.push(20);
         stack.push(30);
 
-        assertThat(stack.size())
-                .isEqualTo(3);
+        assertThat(stack.size()).isEqualTo(3);
     }
 
     @Test
@@ -40,11 +37,14 @@ public class ArrayStackTest {
         stack.push(20);
         stack.push(30);
 
-        Integer value =
-                stack.pop();
+        Integer value = stack.pop();
 
-        assertThat(value)
-                .isEqualTo(30);
+        assertThat(value).isEqualTo(30);
+
+        value = stack.pop();
+
+        assertThat(value).isEqualTo(20);
+
     }
 
     @Test
@@ -54,8 +54,7 @@ public class ArrayStackTest {
         stack.push(20);
         stack.push(30);
 
-        Integer value =
-                stack.peek();
+        Integer value = stack.peek();
 
         assertThat(value)
                 .isEqualTo(30);
