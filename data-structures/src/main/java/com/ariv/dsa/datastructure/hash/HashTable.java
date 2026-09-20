@@ -60,23 +60,27 @@ public class HashTable<K, V> {
     @Deprecated
     public void put1(K key, V value) {
 
+        // Check if the hash table needs to be resized before adding a new entry
         int bucket = bucketIndex(key);
 
+        // Check if the bucket is empty
         Entry<K,V> entry = buckets[bucket];
 
+        // If the bucket is empty, create a new entry and add it to the bucket
         if(entry == null) {
             buckets[bucket] = new Entry<>(key, value);
             size++;
             return;
         }
 
+        // If the bucket is not empty, check if the key already exists in the bucket
         if(entry.key.equals(key)) {
-
+            // If the key already exists, update the value
             entry.value = value;
-
             return;
         }
 
+        // If the key does not exist, we have a collision. In this implementation, we do not handle collisions.
         throw new IllegalStateException(
                 "Collision detected"
         );
@@ -91,9 +95,12 @@ public class HashTable<K, V> {
      * @param value the value to be associated with the specified key
      */
     public void put(K key, V value) {
+        // Check if the hash table needs to be resized before adding a new entry
         if(shouldResize()) {
+            // Resize the hash table to accommodate more entries
             resize();
         }
+        // Add the new entry to the hash table
         putEntry(key, value);
 
 //        int bucket = bucketIndex(key);
@@ -144,14 +151,19 @@ public class HashTable<K, V> {
      */
     public V get(K key) {
 
+        // Check if the hash table needs to be resized before adding a new entry
         int bucket = bucketIndex(key);
 
+        // Check if the bucket is empty
         Entry<K,V> current = buckets[bucket];
 
+        // If the bucket is empty, return null
         while(current != null) {
+            // If the key is found, return the associated value
             if(Objects.equals(current.key, key)) {
                 return current.value;
             }
+            // Move to the next entry in the linked list
             current = current.next;
         }
         return null;
@@ -224,22 +236,35 @@ public class HashTable<K, V> {
         return (size + 1) > buckets.length * LOAD_FACTOR;
     }
 
+    /**
+     * Returns the current capacity of the hash table (the number of buckets).
+     *
+     * @return the current capacity of the hash table
+     */
     public int capacity() {
         return buckets.length;
     }
 
-    private void putEntry(
-            K key,
-            V value
-    ) {
+    /**
+     * Puts an entry into the hash table, handling collisions by using a linked list to store multiple entries in the same bucket.
+     *
+     * @param key   the key with which the specified value is to be associated
+     * @param value the value to be associated with the specified key
+     */
+    private void putEntry(K key, V value) {
+        // Check if the hash table needs to be resized before adding a new entry
         int bucket = bucketIndex(key);
+        // Check if the bucket is empty
         Entry<K,V> current = buckets[bucket];
+        // If the bucket is empty, create a new entry and add it to the bucket
         if(current == null) {
             buckets[bucket] = new Entry<>(key, value);
             size++;
             return;
         }
+        // If the bucket is not empty, check if the key already exists in the bucket
         while(true) {
+            // If the key already exists, update the value
             if(Objects.equals(current.key, key)) {
                 current.value = value;
                 return;
@@ -254,6 +279,9 @@ public class HashTable<K, V> {
         }
     }
 
+    /**
+     * Resizes the hash table by creating a new array of buckets with double the size and rehashing all existing entries into the new buckets.
+     */
     @SuppressWarnings("unchecked")
     private void resize() {
         Entry<K,V>[] oldBuckets = buckets;
@@ -272,6 +300,9 @@ public class HashTable<K, V> {
         size = oldSize;
     }
 
+    /**
+     * Removes all of the mappings from this hash table. The hash table will be empty after this call returns.
+     */
     public void clear() {
         buckets = (Entry<K,V>[]) new Entry[DEFAULT_CAPACITY];
         size = 0;
