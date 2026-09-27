@@ -2,6 +2,14 @@ package com.ariv.dsa.datastructure.btree;
 
 import java.util.Objects;
 
+/**
+ * B+ Tree implementation.
+ *
+ * Phase 10.3 limitations:
+ *
+ * 1. Overflow is not handled.
+ * 2. Duplicate keys are rejected.
+ */
 public class BPlusTree<T extends Comparable<? super T>> {
 
     private Node<T> root;

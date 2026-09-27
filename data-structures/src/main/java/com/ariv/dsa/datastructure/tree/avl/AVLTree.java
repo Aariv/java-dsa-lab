@@ -8,6 +8,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * An AVL tree is a self-balancing binary search tree.
+ *
+ * It maintains the property that for any node, the heights of its left and right
+ * subtrees differ by at most one. This ensures that the tree remains balanced,
+ * providing O(log n) time complexity for insertion, deletion, and search operations.
+ *
+ * @param <T> the type of elements stored in the tree
+ */
 public class AVLTree<T> {
 
     private Node<T> root;

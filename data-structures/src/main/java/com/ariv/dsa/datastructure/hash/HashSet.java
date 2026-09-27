@@ -1,5 +1,10 @@
 package com.ariv.dsa.datastructure.hash;
 
+/**
+ * A simple implementation of a HashSet using a HashTable.
+ *
+ * @param <T> the type of elements maintained by this set
+ */
 public class HashSet<T> {
 
     private static final Object PRESENT = new Object();

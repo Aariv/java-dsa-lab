@@ -3,6 +3,11 @@ package com.ariv.dsa.datastructure.btree;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an internal node in a B-tree, which can have multiple children.
+ *
+ * @param <T> the type of the values stored in the B-tree nodes
+ */
 public class InternalNode<T extends Comparable<? super T>>
         extends Node<T> {
 

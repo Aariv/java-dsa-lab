@@ -9,6 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * An undirected graph implemented using an adjacency matrix.
+ *
+ * The graph maintains vertex insertion order.
+ *
+ * @param <T> vertex type
+ */
 public class AdjacencyMatrixGraph<T> {
 
     private static final int DEFAULT_CAPACITY = 4;
